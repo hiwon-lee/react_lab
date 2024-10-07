@@ -1,10 +1,12 @@
-import { useState } from 'react';
-import TodoForm from './TodoForm';
-import TodoItem from './TodoItem';
+import { useContext, useState } from 'react';
+import TodoForm from './Todo/TodoForm';
+import TodoItem from './Todo/TodoItem';
+import { ThemeContext } from '../context/ThemeContext';
 
-export default function Content({ isDark }) {
+export default function Content() {
   const [todo, setTodo] = useState([]);
   const [newTodo, setNewTodo] = useState('');
+  const { isDark } = useContext(ThemeContext);
 
   // const onChangeNewTodo = (e) => {
   //   setNewTodo(e.target.value);
