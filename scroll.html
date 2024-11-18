@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Document</title>
+    <style>
+      #content .item {
+        padding: 10px;
+        margin: 5px;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+      }
+      #loader {
+        text-align: center;
+        padding: 20px;
+        background-color: #ff1b1b;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <!-- 동적으로 추가될 콘텐츠 -->
+    </div>
+    <div id="loader">Loading...</div>
+
+    <script>
+      // 감지 옵션 설정
+      let options = {
+        root: null, // 뷰포트(화면 전체)가 감지 영역
+        rootMargin: '0px', // 추가 여백 없이 감지
+        threshold: 1.0, // 100% 보였을 때만 감지
+      };
+
+      // 데이터 로드 함수
+      function loadMoreData() {
+        const content = document.getElementById('content');
+
+        // 임의로 데이터 추가
+        for (let i = 0; i < 50; i++) {
+          const item = document.createElement('div');
+          item.textContent = `Item ${content.children.length + 1}`;
+          item.className = 'item';
+          content.appendChild(item);
+        }
+      }
+
+      // 감지 대상 요소가 보일 때 호출될 콜백
+      let callback = (entries, observer) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            console.log(`추가`);
+            console.log(entry.intersectionRect);
+            loadMoreData(); // 데이터 로드
+          }
+        });
+      };
+
+      // 관찰자 생성
+      let observer = new IntersectionObserver(callback, options);
+      let target = document.getElementById('loader');
+      observer.observe(target); // loader를 감지 대상으로 설정
+    </script>
+  </body>
+</html>
